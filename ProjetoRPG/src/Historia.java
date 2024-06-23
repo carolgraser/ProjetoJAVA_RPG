@@ -4,6 +4,7 @@ import java.util.random.*;
 
 public class Historia {
 
+    private int Codigo;
     private String NomeDaHistoria;
     private String Sistema;
     private String Historia;
@@ -18,13 +19,21 @@ public class Historia {
 
         }
    
-public Historia(String nomeDaHistoria, String sistema, String historia) {
-       this.NomeDaHistoria = nomeDaHistoria;
+public Historia(int Codigo, String nomeDaHistoria, String sistema, String historia) {
+       this.Codigo = Codigo;
+        this.NomeDaHistoria = nomeDaHistoria;
         this.Sistema = sistema;
         this.Historia = historia;
     }
 
-    
+ public int getCodigo() {
+    return Codigo;
+}
+
+public void setCodigo(String Codigo) {
+    NomeDaHistoria = Codigo;
+}  
+
 public String getNomeDaHistoria() {
     return NomeDaHistoria;
 }
@@ -52,20 +61,18 @@ public void setHistoria(String historia) {
 @Override
 public String toString() {
     
-    return "Nome da História: " + NomeDaHistoria + ", " + 
-             "Nome do sistema: " + Sistema + ", " +
-            "História: " + Historia;
+    return Codigo + ", " + NomeDaHistoria + ", " + Sistema + ", " + Historia;
 }
 
 public static Historia fromString(String linha) {
     
     String[] dadosHistoria = linha.split(", ");
 
-    if (dadosHistoria.length != 3) {
+    if (dadosHistoria.length != 4) {
         throw new IllegalArgumentException("Formato de linha inválido para converter em História");
     }
 
-    return new Historia(dadosHistoria[0], dadosHistoria[1], dadosHistoria[2]);
+    return new Historia(Integer.parseInt(dadosHistoria[0]), dadosHistoria[1], dadosHistoria[2], dadosHistoria[3]);
 
     }
 
