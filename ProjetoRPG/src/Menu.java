@@ -55,7 +55,25 @@ public class Menu {
 
             System.out.println(tempHistoria);
         }
+        
 
+    }
+    private static void apagarHistoria(){
+
+        System.out.println("--- Apagar História ---");
+        System.out.println("Informe o nome da história que será apagada: ");
+        String NomeHistoria = Console.lerString();
+
+        try{
+            GerenciaHistoria.removerHistoria(NomeHistoria);
+
+            System.out.println("--- A história foi excluída! ---");
+
+        } catch (Exception e) {
+           
+            System.out.println(e.getMessage);
+
+        }
     }
 
     private static void verificar(int op){
