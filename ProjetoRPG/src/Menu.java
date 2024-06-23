@@ -23,6 +23,7 @@ public class Menu {
         System.out.println("1) Cadastrar História");
         System.out.println("2) Listar Histórias");
         System.out.println("3) Excluir História");
+        System.out.println("4) Pesquisar História");
         System.out.println("0) Sair");
 
     }
@@ -65,15 +66,15 @@ public class Menu {
     private static void apagarHistoria(){
 
         System.out.println("--- Apagar História ---");
-        System.out.println("Informe o nome da história que será apagada: ");
-        String teste = Console.lerString();
+        System.out.println("Informe o código da História que será apagada:  ");
+        int Teste = Console.lerInt();
 
         
 
-        System.out.println("--- A história foi excluída! ---");
+        
 
         try{
-            GerenciaHistoria.removerHistoria(teste);
+            GerenciaHistoria.removerHistoria(Teste);
 
             System.out.println("--- A história foi excluída! ---");
 
@@ -105,6 +106,8 @@ public class Menu {
     private static void salvarHistoria() {
 
         System.out.println("--- Cadastre sua História --- ");
+        System.out.println("Cadastrar o código da História: ");
+        int Codigo = Console.lerInt();
         System.out.println("Cadastrar nome da História: ");
         String NomeDaHistoria = Console.lerString();
         System.out.println("Especifique o sistema utilizado: ");
@@ -112,7 +115,7 @@ public class Menu {
         System.out.println("História do RPG: ");
         String Historia = Console.lerString();
 
-        Historia historia = new Historia(NomeDaHistoria, Sistema, Historia);
+        Historia historia = new Historia(Codigo, NomeDaHistoria, Sistema, Historia);
 
         try {
 
@@ -123,6 +126,24 @@ public class Menu {
             System.out.println(e.getMessage());
         }
 
+
+    }
+
+    private static void pesquisarHistoria(){
+
+        System.out.println(" --- Pesquisar História ---");
+        System.out.println("Informe o código da história: ");
+        int Teste = Console.lerInt();
+
+        try{
+
+            Historia historia = GerenciaHistoria.pesquisarHistoria(Teste);
+            System.out.println("\n História encontrada: " + historia);
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+
+        }
 
     }
 
@@ -142,6 +163,11 @@ public class Menu {
             case 3:
 
                 apagarHistoria();
+                break;
+            
+            case 4:
+
+                pesquisarHistoria();
                 break;
         }
     }
