@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class Menu {
 
     public static void executar() {
@@ -25,7 +27,7 @@ public class Menu {
 
     }
     
-    private static void cadastrarHistoria(){
+    /*private static void cadastrarHistoria(){
 
         System.out.println("--- Cadastre sua História --- ");
         System.out.println("Cadastrar nome da História: ");
@@ -41,9 +43,11 @@ public class Menu {
 
         System.out.println("--- Sua historia foi incluida com sucesso!! ---");
 
-    }
 
-    private static void listarHistorias(){
+        === METODO ANTIGO PARA CADASTRO ===
+    }*/
+
+   /*  private static void listarHistorias(){
 
         System.out.println("--- Aqui estão as histórias cadastradas no sistema ---");
         
@@ -56,37 +60,88 @@ public class Menu {
             System.out.println(tempHistoria);
         }
         
-
-    }
+        ===  METODO ANTIGO PARA LISTAR ===
+    }*/
     private static void apagarHistoria(){
 
         System.out.println("--- Apagar História ---");
         System.out.println("Informe o nome da história que será apagada: ");
-        String NomeHistoria = Console.lerString();
+        String teste = Console.lerString();
+
+        
+
+        System.out.println("--- A história foi excluída! ---");
 
         try{
-            GerenciaHistoria.removerHistoria(NomeHistoria);
+            GerenciaHistoria.removerHistoria(teste);
 
             System.out.println("--- A história foi excluída! ---");
 
         } catch (Exception e) {
-           
-            System.out.println(e.getMessage);
+
+            System.out.println(e.getMessage());
 
         }
+    }
+
+    private static void listarHistorias() {
+
+        System.out.println("\n--- Histórias cadastradas no sistema ---");
+
+        try {
+
+            for (Historia tempHistoria : GerenciaHistoria.listarHistorias())
+            {
+                System.out.println(tempHistoria);
+            }
+        
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
+
+    }
+    
+    private static void salvarHistoria() {
+
+        System.out.println("--- Cadastre sua História --- ");
+        System.out.println("Cadastrar nome da História: ");
+        String NomeDaHistoria = Console.lerString();
+        System.out.println("Especifique o sistema utilizado: ");
+        String Sistema = Console.lerString();
+        System.out.println("História do RPG: ");
+        String Historia = Console.lerString();
+
+        Historia historia = new Historia(NomeDaHistoria, Sistema, Historia);
+
+        try {
+
+            GerenciaHistoria.salvarHistoria(historia);
+
+        } catch (IOException e) {
+
+            System.out.println(e.getMessage());
+        }
+
+
     }
 
     private static void verificar(int op){
 
         switch (op) {
             case 1:
-                cadastrarHistoria();
-                
-                break;
+               
+                salvarHistoria();
+                 break;
         
             case 2:
 
                 listarHistorias();
+                break;
+            
+            case 3:
+
+                apagarHistoria();
                 break;
         }
     }
