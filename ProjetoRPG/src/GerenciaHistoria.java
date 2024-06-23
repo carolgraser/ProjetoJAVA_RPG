@@ -46,7 +46,7 @@ public class GerenciaHistoria {
 
     }
     
-     public static void removerHistoria(String teste) throws Exception{
+     public static void removerHistoria(int Teste) throws Exception{
 
         ArrayList<Historia> listaHistorias = listarHistorias();
 
@@ -54,7 +54,7 @@ public class GerenciaHistoria {
 
         for (Historia temp : listaHistorias) {
 
-            if(temp.getNomeDaHistoria() == teste) {
+            if(temp.getCodigo() == Teste) {
                 listaHistorias.remove(temp);
                 encontrou = true;
                 break;
@@ -72,4 +72,20 @@ public class GerenciaHistoria {
             }
         }
     }
+
+    public static Historia pesquisarHistoria(int Codigo) throws Exception {
+
+        ArrayList<Historia> listaHistorias = listarHistorias();
+
+        for (Historia tempHistoria : listaHistorias) {
+
+            if(tempHistoria.getCodigo() == Codigo) {
+
+                return tempHistoria;
+            }
+        }
+        throw new Exception("\n --- A história não foi localizada!! ---");
+
+    }
+
 }
