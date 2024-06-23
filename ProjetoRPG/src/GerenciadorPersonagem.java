@@ -1,6 +1,52 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Console;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public abstract class GerenciadorPersonagem {
+
+        private static final String PERSONAGEM = "PERSONAGEM.txt";
+    
+
+    public static void salvarPersonagem(Personagem personagem) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(PERSONAGEM, true))) {
+            bw.write(personagem.toString());
+            bw.newLine();
+        }
+    }
+
+    public static ArrayList<Personagem> listarPersonagens() throws IOException, Exception {
+        ArrayList<Personagem> listaPersonagens = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(PERSONAGEM))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+
+                Personagem personagem;
+                String tipoPersonagem = dados[3];
+
+                switch (tipoPersonagem) {
+                    case "Jogador":
+                        personagem = new Jogador(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], Integer.parseInt(dados[7]));
+                        break;
+                    case "Escultura":
+                        personagem = new Boss(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], dados[7]);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+        if (listaPersonagens.isEmpty()) {
+            throw new Exception("\nNão há personagens cadastradoss");
+        }
+
+        return listaPersonagens;}
+    }
 
     public static void cadastrarPersonagem() {
 
@@ -65,4 +111,17 @@ public abstract class GerenciadorPersonagem {
         }
 
 }
+
+        public static Personagem buscarPersonagem(String nome) throws Exception {
+            ArrayList<Personagem> listaPersonagens = listarPersonagens();
+
+            for (Personagem tempPersonagem : listaPersonagens) {
+                if (tempPersonagem.getNome().equals(nome)) {
+                    return tempPersonagem;
+                }
+            }
+
+            throw new Exception("\nPersonagem: " + nome + " não localizado!");
+        }
+
 }
