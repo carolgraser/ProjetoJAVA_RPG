@@ -52,7 +52,9 @@ public void setHistoria(String historia) {
 @Override
 public String toString() {
     
-    return NomeDaHistoria + ", " + Sistema + ", " + Historia;
+    return "Nome da História: " + NomeDaHistoria + ", " + 
+             "Nome do sistema: " + Sistema + ", " +
+            "História: " + Historia;
 }
 
 public static Historia fromString(String linha) {
