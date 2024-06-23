@@ -19,9 +19,9 @@ public class Historia {
         }
    
 public Historia(String nomeDaHistoria, String sistema, String historia) {
-        NomeDaHistoria = nomeDaHistoria;
-        Sistema = sistema;
-        Historia = historia;
+       this.NomeDaHistoria = nomeDaHistoria;
+        this.Sistema = sistema;
+        this.Historia = historia;
     }
 
     
@@ -52,10 +52,20 @@ public void setHistoria(String historia) {
 @Override
 public String toString() {
     
-    return "\n Nome da Historia: " + NomeDaHistoria +
-        "\n Sistema: " + Sistema + "\n Historia: " + 
-            Historia;
+    return NomeDaHistoria + ", " + Sistema + ", " + Historia;
 }
+
+public static Historia fromString(String linha) {
+    
+    String[] dadosHistoria = linha.split(", ");
+
+    if (dadosHistoria.length != 3) {
+        throw new IllegalArgumentException("Formato de linha inválido para converter em História");
+    }
+
+    return new Historia(dadosHistoria[0], dadosHistoria[1], dadosHistoria[2]);
+
+    }
 
 
 
