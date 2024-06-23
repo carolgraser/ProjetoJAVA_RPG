@@ -1,11 +1,25 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class GerenciaHistoria {
 
     private static final String ARQUIVO = "historias.txt";
+
+ 
+    public static void salvarHistoria(Historia historia) throws IOException {
+
+        try (FileWriter fw = new FileWriter(ARQUIVO, true);
+             BufferedWriter bw = new BufferedWriter(fw)) {
+
+            bw.write(historia + "\n");
+
+        }
+
+    }
 
 
 
@@ -32,7 +46,7 @@ public class GerenciaHistoria {
 
     }
     
-     public static void removerHistoria(String NomeDaHistoria) throws Exception{
+     public static void removerHistoria(String teste) throws Exception{
 
         ArrayList<Historia> listaHistorias = listarHistorias();
 
@@ -40,7 +54,7 @@ public class GerenciaHistoria {
 
         for (Historia temp : listaHistorias) {
 
-            if(temp.getNomeDaHistoria() == NomeDaHistoria) {
+            if(temp.getNomeDaHistoria() == teste) {
                 listaHistorias.remove(temp);
                 encontrou = true;
                 break;
@@ -48,6 +62,14 @@ public class GerenciaHistoria {
         }
         if (!encontrou){
             throw new Exception("\n A história não foi localizada!!");
+        }
+        try (FileWriter fw = new FileWriter(ARQUIVO);
+        BufferedWriter bw = new BufferedWriter(fw)) {
+
+            for (Historia i : listaHistorias) {
+
+                bw.write(i + "\n");
+            }
         }
     }
 }
