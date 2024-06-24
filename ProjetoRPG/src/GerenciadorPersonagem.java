@@ -1,52 +1,75 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Console;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.*;
 
 public abstract class GerenciadorPersonagem {
 
-        private static final String PERSONAGEM = "PERSONAGEM.txt";
+    
+    private static final String JOGADOR = "JOGADOR.txt";
+    private static final String BOSS = "BOSS.txt";
     
 
-    public static void salvarPersonagem(Personagem personagem) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(PERSONAGEM, true))) {
-            bw.write(personagem.toString());
+    public static void salvarPersonagem(Personagem jogador) throws IOException {
+        
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(JOGADOR, true))) {
+
+            bw.write(jogador.toString());
             bw.newLine();
+        
         }
     }
 
-    public static ArrayList<Personagem> listarPersonagens() throws IOException, Exception {
-        ArrayList<Personagem> listaPersonagens = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(PERSONAGEM))) {
+
+    public static ArrayList<Jogador> listarJogadores() throws IOException, Exception {
+        
+        ArrayList<Jogador> listaJogadores = new ArrayList<>();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(JOGADOR))) {
+            
             String linha;
             while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
 
-                Personagem personagem;
-                String tipoPersonagem = dados[3];
-
-                switch (tipoPersonagem) {
-                    case "Jogador":
-                        personagem = new Jogador(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], Integer.parseInt(dados[7]));
-                        break;
-                    case "Escultura":
-                        personagem = new Boss(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], dados[7]);
-                        break;
-                    default:
-                        break;
-                }
+                Jogador jogador = Jogador.fromString(linha);
+                listaJogadores.add(jogador);                
+            }
 
             }
 
-        if (listaPersonagens.isEmpty()) {
-            throw new Exception("\nNão há personagens cadastradoss");
+        if (listaJogadores.isEmpty()) {
+            throw new Exception("\nNão há jogadores cadastrados");
         }
 
-        return listaPersonagens;}
+        return listaJogadores;
+        
     }
+
+    public static ArrayList<Boss> listarBosses() throws IOException, Exception {
+        
+        ArrayList<Boss> listaBosses = new ArrayList<>();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(BOSS))) {
+            
+            String linha;
+            while ((linha = br.readLine()) != null) {
+
+                Boss boss = Boss.fromString(linha);
+                listaBosses.add(boss);                
+            }
+
+            }
+
+        if (listaBosses.isEmpty()) {
+            throw new Exception("\nNão há jogadores cadastrados");
+        }
+
+        return listaBosses;
+        
+    }
+
 
     public static void cadastrarPersonagem() {
 
@@ -110,6 +133,15 @@ public abstract class GerenciadorPersonagem {
                 break;
         }
 
+        try {
+
+            GerenciadorPersonagem.salvarPersonagem(personagem);
+
+        } catch (IOException e) {
+
+            System.out.println(e.getMessage());
+        }
+
 }
 
         public static Personagem buscarPersonagem(String nome) throws Exception {
@@ -124,4 +156,32 @@ public abstract class GerenciadorPersonagem {
             throw new Exception("\nPersonagem: " + nome + " não localizado!");
         }
 
+        public static void apagarPersonagem(String nome) throws Exception{
+
+            ArrayList<Personagem> listaPersonagens = listarPersonagens();       
+        
+            boolean encontrou = false;
+            for (Personagem tempPersonagem : listaPersonagens) {
+    
+                if(tempPersonagem.getNome() == nome) {
+                    listaPersonagens.remove(tempPersonagem);
+                    encontrou = true;
+                    break;
+                }
+            }
+    
+            if (!encontrou) {
+                throw new Exception("\nPersonagem com o nome " + nome + " não localizado!");
+            }
+    
+            try (FileWriter fw = new FileWriter(PERSONAGEM);
+            BufferedWriter bw = new BufferedWriter(fw)) {
+    
+                for (Personagem o : listaPersonagens) {
+    
+                    bw.write(o + "\n");
+                }
+            }
+        }
+    
 }
