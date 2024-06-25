@@ -34,41 +34,6 @@ public class Menu {
 
     }
     
-    /*private static void cadastrarHistoria(){
-
-        System.out.println("--- Cadastre sua História --- ");
-        System.out.println("Cadastrar nome da História: ");
-        String NomeDaHistoria = Console.lerString();
-        System.out.println("Especifique o sistema utilizado: ");
-        String Sistema = Console.lerString();
-        System.out.println("História do RPG: ");
-        String Historia = Console.lerString();
-
-        Historia historia = new Historia(NomeDaHistoria, Sistema, Historia);
-
-        CadastroHistoria.cadastrarHistoria(historia);
-
-        System.out.println("--- Sua historia foi incluida com sucesso!! ---");
-
-
-        === METODO ANTIGO PARA CADASTRO ===
-    }*/
-
-   /*  private static void listarHistorias(){
-
-        System.out.println("--- Aqui estão as histórias cadastradas no sistema ---");
-        
-        if (CadastroHistoria.getListaHistorias().size() == 0){
-            System.out.println("\n--- Não existem histórias cadastradas.");
-            return;
-        }
-        for(Historia tempHistoria : CadastroHistoria.getListaHistorias()) {
-
-            System.out.println(tempHistoria);
-        }
-        
-        ===  METODO ANTIGO PARA LISTAR ===
-    }*/
 
     private static void apagarHistoria(){
 
@@ -76,9 +41,9 @@ public class Menu {
         System.out.println("Informe o código da História que será apagada:  ");
         int Teste = Console.lerInt();
 
-        
-        
+
         try{
+            
             GerenciaHistoria.removerHistoria(Teste);
 
             System.out.println("--- A história foi excluída! ---");
@@ -90,6 +55,7 @@ public class Menu {
         }
     }
 
+
     private static void listarHistorias() {
 
         System.out.println("\n--- Histórias cadastradas no sistema ---");
@@ -97,13 +63,17 @@ public class Menu {
         try {
 
             for (Historia tempHistoria : GerenciaHistoria.listarHistorias())
-            {
-                System.out.println(tempHistoria);
-            }
+            
+                {
+            
+                    System.out.println(tempHistoria);
+            
+                }
         
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
+        
         }
 
     }
@@ -131,7 +101,6 @@ public class Menu {
             System.out.println(e.getMessage());
         }
 
-
     }
 
     private static void pesquisarHistoria(){
@@ -144,6 +113,7 @@ public class Menu {
 
             Historia historia = GerenciaHistoria.pesquisarHistoria(Teste);
             System.out.println("\n História encontrada: " + historia);
+        
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
@@ -181,7 +151,6 @@ public class Menu {
         System.out.print("Sua opção: ");
         int tipo = Console.lerInt(); 
 
-        String tipoPersonagem;
         Personagem personagem = null;
            
         
@@ -189,18 +158,38 @@ public class Menu {
 
             case 1:
                 
-                tipoPersonagem = " --- Jogador --- ";
+                System.out.println(" --- Jogador --- ");
                 System.out.print("\nQuantidade de vidas: ");
                 int qtdVidas = Console.lerInt();
-                personagem = new Jogador(nome, raca, carisma, historia, destreza, sabedoria, tipoPersonagem, qtdVidas);
+                Jogador jogador = new Jogador(nome, raca, carisma, carisma, destreza, sabedoria, historia, qtdVidas);
+
+                try {
+
+                    GerenciadorPersonagem.salvarJogador(jogador);
+        
+                } catch (IOException e) {
+        
+                    System.out.println(e.getMessage());
+                }
+
                 break;
 
             case 2:
 
-                tipoPersonagem = " --- Boss --- ";
+                System.out.println(" --- Boss --- ");
                 System.out.print("\nAtaque especial: ");
                 String ataqueEspecial = Console.lerString();
-                personagem = new Boss(nome, raca, carisma, historia, destreza, sabedoria, tipoPersonagem, ataqueEspecial);
+                Boss boss = new Boss(nome, raca, carisma, carisma, destreza, sabedoria, historia, ataqueEspecial);
+
+                try {
+
+                    GerenciadorPersonagem.salvarBoss(boss);
+        
+                } catch (IOException e) {
+        
+                    System.out.println(e.getMessage());
+                }
+
                 break;
 
             case 0: 
@@ -215,70 +204,185 @@ public class Menu {
 
         }
 
-        try {
-
-            GerenciadorPersonagem.salvarPersonagem(personagem);
-
-        } catch (IOException e) {
-
-            System.out.println(e.getMessage());
-        }
 
     }
 
     private static void buscarPersonagem() throws Exception{
 
         System.out.println(" --- Buscar Personagem --- ");
-        System.out.println("\nInforme o nome do Personagem: ");
-        String nome = Console.lerString();
+        System.out.println("1) Jogador");
+        System.out.println("2) Boss");
+        System.out.println("0) Sair");
 
-        try {
+        int op = Console.lerInt();
 
-            GerenciadorPersonagem.buscarPersonagem(nome);
+        switch (op) {
 
-        } catch (IOException e) {
+            case 1:
+                
+                System.out.println("\nInforme o nome do Jogador: ");
+                String nomeJogador = Console.lerString();
+                
+                try {
 
-            System.out.println(e.getMessage());
+                    GerenciadorPersonagem.buscarJogador(nomeJogador);
+        
+                } catch (IOException e) {
+        
+                    System.out.println(e.getMessage());
+                }
+
+                break;
+        
+            case 2:
+
+                System.out.println("\nInforme o nome do Boss: ");
+                String nomeBoss = Console.lerString();
+                
+                try {
+
+                    GerenciadorPersonagem.buscarBoss(nomeBoss);
+
+                } catch (IOException e) {
+
+                    System.out.println(e.getMessage());
+                }
+
+                break;
+
+            case 0: 
+                
+                System.out.println("\nO programa foi finalizado...");
+                break;
+        
+            default:
+                
+                System.out.println("\nOpção inválida! Digite novamente:");
+                break;
+
         }
     }
+        
 
-    private static void listarPersonagens(){
+    private static void listarPersonagens() throws Exception{
 
         System.out.println(" --- Listar Personagens --- ");
-        
-        try {
 
-            for (Personagem tempPersonagem : GerenciadorPersonagem.listarPersonagens())
-            {
-                System.out.println(tempPersonagem);
+        System.out.println("1) Listar Jogadores");
+        System.out.println("2) Listar Bosses");
+        System.out.println("0) Sair");
+        int op = Console.lerInt();
+
+        switch (op) {
+
+            case 1:
+
+            System.out.println(" --- Lista de Jogadores --- ");
+            
+            try {
+
+                for (Jogador tempJogador2 : GerenciadorPersonagem.listarJogadores())
+
+                {
+
+                    System.out.println(tempJogador2);
+                }
+
+            } catch (IOException e) {
+
+                System.out.println(e.getMessage());
             }
+
+            break;
+
+
+            case 2:
+
+            System.out.println(" --- Lista de Bosses --- ");
+            
+            try {
+
+                for (Boss tempBoss2 : GerenciadorPersonagem.listarBosses())
+
+                {
+
+                    System.out.println(tempBoss2);
+                }
+
+            } catch (IOException e) {
+
+                System.out.println(e.getMessage());
+            }
+
+            break;
+
+            case 0: 
+                
+                System.out.println("\nO programa foi finalizado...");
+                break;
         
-        } catch (Exception e) {
+            default:
+                
+                System.out.println("\nOpção inválida! Digite novamente:");
+                break;
 
-            System.out.println(e.getMessage());
         }
-
     }
 
     private static void apagarPersonagem() throws Exception {
 
         System.out.println(" --- Apagar Personagem --- ");
-        System.out.println("\nInforme o nome do Personagem: ");
-        String nome = Console.lerString();
+        System.out.println("1) Apagar Jogador");
+        System.out.println("2) Apagar Boss");
+        System.out.println("0) Sair");
+        int op = Console.lerInt();
+
+        switch (op) {
+        
+        case 1:
+
+            System.out.println("\nInforme o nome do Jogador: ");
+            String nomeJogador2 = Console.lerString();
 
         try {
 
-            GerenciadorPersonagem.apagarPersonagem(nome);
+            GerenciadorPersonagem.apagarJogador(nomeJogador2);
 
         } catch (IOException e) {
 
             System.out.println(e.getMessage());
         }
+                
+        break;
+        
+        case 2:
+
+        System.out.println("\nInforme o nome do Boss: ");
+            String nomeBoss2 = Console.lerString();
+
+        try {
+
+            GerenciadorPersonagem.apagarBoss(nomeBoss2);
+
+        } catch (IOException e) {
+
+            System.out.println(e.getMessage());
+        }
+                
+        break;
+
+        case 0:
+        
+        System.out.println("\nO programa foi finalizado...");
+        break;
+
+        default:
+        
+        System.out.println("\nOpção inválida! Digite novamente:");
+        break;
 
     }
-
-
-
+}
     /**
      * @param op
      * @throws Exception 
@@ -328,14 +432,13 @@ public class Menu {
             
             case 0:
 
+                System.out.println("\nO programa foi finalizado...");
                 break;
             
             default:
             
+                System.out.println("\nOpção inválida! Digite novamente:");
                 break;
+            }
         }
     }
-
-
-    
-}

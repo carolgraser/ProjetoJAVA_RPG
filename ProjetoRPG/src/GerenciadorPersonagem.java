@@ -1,127 +1,165 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Console;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.*;
 
 public abstract class GerenciadorPersonagem {
 
-        private static final String PERSONAGEM = "PERSONAGEM.txt";
+    
+    private static final String JOGADOR = "JOGADOR.txt";
+    private static final String BOSS = "BOSS.txt";
     
 
-    public static void salvarPersonagem(Personagem personagem) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(PERSONAGEM, true))) {
-            bw.write(personagem.toString());
-            bw.newLine();
+    public static void salvarJogador(Jogador jogador) throws IOException {
+        
+        try (FileWriter fw = new FileWriter(JOGADOR, true);
+            BufferedWriter bw = new BufferedWriter(fw)) {
+
+            bw.write(jogador + "\n");
+        
         }
     }
 
-    public static ArrayList<Personagem> listarPersonagens() throws IOException, Exception {
-        ArrayList<Personagem> listaPersonagens = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(PERSONAGEM))) {
+    public static void salvarBoss(Personagem boss) throws IOException {
+        
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(BOSS, true))) {
+
+            bw.write(boss.toString());
+            bw.newLine();
+        
+        }
+    }
+
+
+    public static ArrayList<Jogador> listarJogadores() throws IOException, Exception {
+        
+        ArrayList<Jogador> listaJogadores = new ArrayList<>();
+        
+        try (FileReader fr = new FileReader(JOGADOR);
+        BufferedReader br = new BufferedReader(fr)) {
+            
             String linha;
             while ((linha = br.readLine()) != null) {
-                String[] dados = linha.split(";");
 
-                Personagem personagem;
-                String tipoPersonagem = dados[3];
-
-                switch (tipoPersonagem) {
-                    case "Jogador":
-                        personagem = new Jogador(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], Integer.parseInt(dados[7]));
-                        break;
-                    case "Escultura":
-                        personagem = new Boss(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], dados[7]);
-                        break;
-                    default:
-                        break;
-                }
+                Jogador jogador = Jogador.fromString(linha);
+                listaJogadores.add(jogador);                
+            }
 
             }
 
-        if (listaPersonagens.isEmpty()) {
-            throw new Exception("\nNão há personagens cadastradoss");
+        if (listaJogadores.isEmpty()) {
+            throw new Exception("\nNão há jogadores cadastrados");
         }
 
-        return listaPersonagens;}
+        return listaJogadores;
+        
     }
 
-    public static void cadastrarPersonagem() {
-
-        System.out.println("\nCadastro de Personagem:");
-
-        System.out.print("Nome: ");
-        String nome = Console.lerString();
-
-        System.out.print("Raça ");
-        String raca = Console.lerString();
-
-        System.out.print("Carsima: ");
-        String carisma = Console.lerString();
-
-        System.out.print("Destreza: ");
-        String destreza = Console.lerString();
-
-        System.out.println("Sabedoria: ");
-        String sabedoria = Console.lerString();
-
-        System.out.println("História: ");
-        String historia = Console.lerString();
-
-        System.out.print("Tipo de Personagem: ");
-        System.out.println("1) Jogador");
-        System.out.println("2) Boss");
-        System.out.println("0) Sair");
-        System.out.print("Sua opção: ");
-        int tipo = Console.lerInt(); 
-
-        String tipoPersonagem;
-        Personagem personagem = null;
-           
+    public static ArrayList<Boss> listarBosses() throws IOException, Exception {
         
-        switch (tipo) {
-
-            case 1:
-                
-                tipoPersonagem = "Jogador";
-                System.out.print("Quantidade de vidas: ");
-                int qtdVidas = Console.lerInt();
-                personagem = new Jogador(nome, raca, carisma, historia, destreza, sabedoria, tipoPersonagem, qtdVidas);
-                break;
-
-            case 2:
-
-                tipoPersonagem = "Boss";
-                System.out.print("Ataque especial: ");
-                String ataqueEspecial = Console.lerString();
-                personagem = new Boss(nome, raca, carisma, historia, destreza, sabedoria, tipoPersonagem, ataqueEspecial);
-                break;
-
-            case 0: 
-                
-                System.out.println("\nO programa foi finalizado...");
-                break;
+        ArrayList<Boss> listaBosses = new ArrayList<>();
         
-            default:
-                
-                System.out.println("\nOpção inválida! Digite novamente:");
-                break;
+        try (BufferedReader br = new BufferedReader(new FileReader(BOSS))) {
+            
+            String linha;
+            while ((linha = br.readLine()) != null) {
+
+                Boss boss = Boss.fromString(linha);
+                listaBosses.add(boss);                
+            }
+
         }
 
-}
+        if (listaBosses.isEmpty()) {
+            throw new Exception("\nNão há jogadores cadastrados");
+        }
 
-        public static Personagem buscarPersonagem(String nome) throws Exception {
-            ArrayList<Personagem> listaPersonagens = listarPersonagens();
+        return listaBosses;
+        
+    }
 
-            for (Personagem tempPersonagem : listaPersonagens) {
-                if (tempPersonagem.getNome().equals(nome)) {
-                    return tempPersonagem;
+
+        public static Jogador buscarJogador(String nome) throws Exception {
+            ArrayList<Jogador> listaJogadores = listarJogadores();
+
+            for (Jogador tempJogador : listaJogadores) {
+                if (tempJogador.getNome().equals(nome)) {
+                    return tempJogador;
                 }
             }
 
-            throw new Exception("\nPersonagem: " + nome + " não localizado!");
+            throw new Exception("\nJogador: " + nome + " não localizado!");
         }
 
+        public static Boss buscarBoss(String nome) throws Exception {
+            ArrayList<Boss> listaJogadores = listarBosses();
+
+            for (Boss tempBoss : listarBosses()) {
+                if (tempBoss.getNome().equals(nome)) {
+                    return tempBoss;
+                }
+            }
+
+            throw new Exception("\nBoss: " + nome + " não localizado!");
+        }
+
+        public static void apagarJogador(String nome) throws Exception{
+
+            ArrayList<Jogador> listaJogadores = listarJogadores();       
+        
+            boolean encontrou = false;
+            for (Jogador tempJogador : listaJogadores) {
+    
+                if(tempJogador.getNome() == nome) {
+                    listaJogadores.remove(tempJogador);
+                    encontrou = true;
+                    break;
+                }
+            }
+    
+            if (!encontrou) {
+                throw new Exception("\nJogador com o nome " + nome + " não localizado!");
+            }
+    
+            try (FileWriter fw = new FileWriter(JOGADOR);
+            BufferedWriter bw = new BufferedWriter(fw)) {
+    
+                for (Jogador o : listaJogadores) {
+    
+                    bw.write(o + "\n");
+                }
+            }
+        }
+
+        public static void apagarBoss(String nome) throws Exception{
+
+            ArrayList<Boss> listaBosses = listarBosses();       
+        
+            boolean encontrou = false;
+            for (Boss tempBoss : listaBosses) {
+    
+                if(tempBoss.getNome() == nome) {
+                    listaBosses.remove(tempBoss);
+                    encontrou = true;
+                    break;
+                }
+            }
+    
+            if (!encontrou) {
+                throw new Exception("\nBoss com o nome " + nome + " não localizado!");
+            }
+    
+            try (FileWriter fw = new FileWriter(BOSS);
+            BufferedWriter bw = new BufferedWriter(fw)) {
+    
+                for (Boss o : listaBosses) {
+    
+                    bw.write(o + "\n");
+                }
+            }
+        }
+    
 }

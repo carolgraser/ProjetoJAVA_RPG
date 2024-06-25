@@ -4,8 +4,8 @@ public class Boss extends Personagem{
 
 
     public Boss(String nome, String raca, String carisma, String forca, String destreza, String sabedoria,
-            String história, String ataqueEspecial) {
-        super(nome, raca, carisma, forca, destreza, sabedoria, história);
+            String historiaPersonagem, String ataqueEspecial) {
+        super(nome, raca, carisma, forca, destreza, sabedoria, historiaPersonagem);
         this.ataqueEspecial = ataqueEspecial;
     }
 
@@ -21,8 +21,20 @@ public class Boss extends Personagem{
     @Override
     public String toString() {
 
-        return super.toString() + "\nAtaque especial: " + ataqueEspecial;
+        return super.toString() + ataqueEspecial + ";";
     }
+
+    public static Boss fromString(String linha) {
+    
+        String[] dadosBoss = linha.split(";");
+    
+        if (dadosBoss.length != 8) {
+            throw new IllegalArgumentException("Formato de linha inválido para converter em Boss");
+        }
+    
+        return new Boss(dadosBoss[0], dadosBoss[1], dadosBoss[2], dadosBoss[3], dadosBoss[4], dadosBoss[5], dadosBoss[6], dadosBoss[7]);
+    
+        }
 
 
 }
