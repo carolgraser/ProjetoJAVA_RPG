@@ -20,8 +20,10 @@ Classe Console - Contem funções que são amplamente utilizadas no código para
 Boss - Classe boss traz os atributos para a utilização das variaveis no código.
 Jogador - Classe Jogador traz os atributos para a utilização das variaveis no código.
 História - Classe História traz os atributos para a utilização das variaveis no código.
+Personagem - Classe mae que abrange atributos usados por jogador e boss.
 CadastroHistoria - Contem um método para registrar histórias.
 GerenciarHistoria - Contem métodos para pesquisar, apagar e salvar uma história.
+GerenciadorPersonagem - Contem métodos para pesquisar, apagar e salvar um personagem.
 Principal - Executa o programa.
 Menu - Interface visual contendo um menu de seleção para as funções do código.
 
