@@ -225,7 +225,8 @@ public class Menu {
                 
                 try {
 
-                    GerenciadorPersonagem.buscarJogador(nomeJogador);
+                    Jogador jogador = GerenciadorPersonagem.buscarJogador(nomeJogador);
+                    System.out.println("Jogador encontrado: " + jogador);
         
                 } catch (IOException e) {
         
@@ -241,7 +242,8 @@ public class Menu {
                 
                 try {
 
-                    GerenciadorPersonagem.buscarBoss(nomeBoss);
+                    Boss boss = GerenciadorPersonagem.buscarBoss(nomeBoss);
+                    System.out.println("Boss encontrado: " + boss);
 
                 } catch (IOException e) {
 
@@ -347,6 +349,7 @@ public class Menu {
         try {
 
             GerenciadorPersonagem.apagarJogador(nomeJogador2);
+            System.out.println("Jogador removido!");
 
         } catch (IOException e) {
 
@@ -357,12 +360,13 @@ public class Menu {
         
         case 2:
 
-        System.out.println("\nInforme o nome do Boss: ");
+            System.out.println("\nInforme o nome do Boss: ");
             String nomeBoss2 = Console.lerString();
 
         try {
 
             GerenciadorPersonagem.apagarBoss(nomeBoss2);
+            System.out.println("Boss removido!");
 
         } catch (IOException e) {
 

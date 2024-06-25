@@ -106,22 +106,23 @@ public abstract class GerenciadorPersonagem {
             throw new Exception("\nBoss: " + nome + " não localizado!");
         }
 
-        public static void apagarJogador(String nome) throws Exception{
+        public static void apagarJogador(String nomeJogador2) throws Exception{
 
             ArrayList<Jogador> listaJogadores = listarJogadores();       
         
             boolean encontrou = false;
             for (Jogador tempJogador : listaJogadores) {
     
-                if(tempJogador.getNome() == nome) {
+                if(tempJogador.getNome().equals(nomeJogador2)) {
                     listaJogadores.remove(tempJogador);
                     encontrou = true;
                     break;
                 }
+    
             }
     
             if (!encontrou) {
-                throw new Exception("\nJogador com o nome " + nome + " não localizado!");
+                throw new Exception("\nJogador com o nome " + nomeJogador2 + " não localizado!");
             }
     
             try (FileWriter fw = new FileWriter(JOGADOR);
@@ -134,14 +135,14 @@ public abstract class GerenciadorPersonagem {
             }
         }
 
-        public static void apagarBoss(String nome) throws Exception{
+        public static void apagarBoss(String nomeBoss2) throws Exception{
 
             ArrayList<Boss> listaBosses = listarBosses();       
         
             boolean encontrou = false;
             for (Boss tempBoss : listaBosses) {
     
-                if(tempBoss.getNome() == nome) {
+                if(tempBoss.getNome().equals(nomeBoss2)) {
                     listaBosses.remove(tempBoss);
                     encontrou = true;
                     break;
@@ -149,7 +150,7 @@ public abstract class GerenciadorPersonagem {
             }
     
             if (!encontrou) {
-                throw new Exception("\nBoss com o nome " + nome + " não localizado!");
+                throw new Exception("\nBoss com o nome " + nomeBoss2 + " não localizado!");
             }
     
             try (FileWriter fw = new FileWriter(BOSS);
