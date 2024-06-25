@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GerenciaHistoria {
+public abstract class GerenciaHistoria {
 
     private static final String ARQUIVO = "historias.txt";
 
