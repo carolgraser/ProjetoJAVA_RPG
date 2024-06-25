@@ -6,17 +6,17 @@ public class Personagem{
     private String forca;
     private String destreza;
     private String sabedoria;
-    private String história;
+    private String historiaPersonagem;
 
     public Personagem(String nome, String raca, String carisma, String forca, String destreza, String sabedoria,
-            String história) {
+            String historiaPersonagem) {
         this.nome = nome;
         this.raca = raca;
         this.carisma = carisma;
         this.forca = forca;
         this.destreza = destreza;
         this.sabedoria = sabedoria;
-        this.história = história;
+        this.historiaPersonagem = historiaPersonagem;
     }
 
     public String getNome() {
@@ -67,21 +67,23 @@ public class Personagem{
         this.sabedoria = sabedoria;
     }
 
-    public String getHistória() {
-        return história;
+    public String getHistoriaPersonagem() {
+        return historiaPersonagem;
     }
 
-    public void setHistória(String história) {
-        this.história = história;
+    public void setHistoriaPersonagem(String historia) {
+        this.historiaPersonagem = historia;
     }
     
     @Override
     public String toString(){
 
-        return "Nome: " + nome + "\nRaça: " + raca + "\nCarisma: " + carisma + "\nForça" + forca +
-        "\nDestreza: " + destreza + "\nSabedoria: " + sabedoria + "\nHistória: " + história;
+        return nome + ";" + raca + ";" + carisma + ";" + 
+        forca + ";" + destreza + ";" + sabedoria + ";" + 
+        historiaPersonagem + ";";
     
     }
+
 
     
 }
